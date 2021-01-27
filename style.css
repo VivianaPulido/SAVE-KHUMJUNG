@@ -1,0 +1,16 @@
+canvas {
+    border: solid;
+    margin-top: 0;
+}
+
+#fondo{
+    width: 900px;
+    margin-bottom: 0;
+    border: solid 1px;
+}
+
+#ground{
+    width: 900px;
+    display: none;
+
+}
