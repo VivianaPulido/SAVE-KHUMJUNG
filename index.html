@@ -3,37 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Saving Kumjung Forest!!</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div>
-        <img id="fondo" src="imagenes/fondo.png">
+<div id="gameTitleAndTop">
+    <div class="backTop" >
+        <img class="fondo" src="imagenes/fondo.png">
+        <img class="fondo" src="imagenes/fondo.png">
+        <img class="fondo" src="imagenes/fondo.png">
     </div>
-
-    <div>
-        <img id="ground" src="imagenes/ground.png">
+    <div class="gameTitle">
+    <img src="imagenes/jeepCazador.png">
     </div>
-    <div>
-    <canvas id="canvas"></canvas>
-    <span><div id="scoreBoard">
-        <div><span class="lives">"imgCorazon":</span> <span class="livesCount">3</span></div>
-         <div><span class="timer">Time:</span> <span class="countTime">0</span></div>
-        <div><span class="scoreName">"imgHunters": </span><span class="huntersScore">0</span></div>
-        <div><span class="savedYetis">"imgYeticonMiniYeti": </span><span class="yetisCounter">0</span></div>
-    </div></span>
 </div>
-<div>
+<div id="gameAndInfo">
+        <div id="scoreBoard">
+            <div class="info"><span class="lives">"imgCorazon":</span> <span class="livesCount">5</span></div>
+            <div class="info"><span class="info timer">Time:</span> <span class="countTime">0</span></div>
+            <div class="info"><span class="info scoreName">"imgHunters": </span><span class="huntersScore">0</span></div>
+            <div class="info"><span class="info savedYetis">"imgYeticonMiniYeti": </span><span class="aldeanosCount">0</span></div>
+            <div class="info"><span class="info coinsName">"Simbolo dinero": </span><span class="coinsCounter">0</span></div>
+        </div>
+        <div id="displayJuego">
+            <canvas id="canvas"></canvas>
+        </div>
+        <p class="gameOver">GAME OVER!</p>
+        <div id="instrucciones">
+        </div>
+</div>
+<div class="botones">
     <button id="comprar">Comprar</button>
+    <div id="pantallaStartGame">
+    <button class="btnStartGame">Start Game</button>
+    <button class="btnRestarttGame">Restart Game</button>
+</div>
 </div>
     <!--<script src="./loadImg.js"></script>-->
     <script src="./index.js"></script>
 </body>
 </html>
-
 <!--ESTA ES UNA PRUEBA PARA GITHUB-->
-
-
-
-
-

@@ -1,16 +1,65 @@
+body{
+    margin: 0;
+    border: solid;
+}
+#gameTitleAndTop {
+position: relative;
+}
+.backTop {
+    display: flex;
+    flex-direction: row;
+}
+.fondo {
+    margin: 0;
+    border: 0;
+}
+.gameTitle {
+    position: absolute;
+    width: 10px;
+    height: 25px;
+    top: 25%;
+    left: 45%;
+}
+#gameAndInfo {
+    display: flex;
+    flex-direction: row;
+    border: solid;
+    margin: 0;
+    align-content: space-between;
+    height: 560px;
+}
+#displayJuego{
+    width: 900px;
+}
 canvas {
     border: solid;
     margin-top: 0;
 }
-
-#fondo{
-    width: 900px;
-    margin-bottom: 0;
-    border: solid 1px;
+#gameAndInfo #scoreBoard {
+    border: solid;
+    margin-left:20px;
+    margin-right: 30px;
+    padding: 10px 10px;
 }
-
-#ground{
-    width: 900px;
-    display: none;
-
+.gameOver {
+    position: absolute;
+    top: 50%;
+    text-align: center;
+    font-size: 100px;
+    right: 30%;
+    display:none;
+}
+#scoreBoard .info {
+    font-size: 40px;
+}
+#instrucciones {
+    width: 30px;
+}
+.botones {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
