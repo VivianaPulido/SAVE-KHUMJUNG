@@ -82,6 +82,7 @@ class Shooter extends Component {
     this.playerImg.onload= () => {
     this.draw()
 }
+this.vida = 5
 }
 draw(){
     ctx.drawImage(this.playerImg, this.x, this.y, this.width, this.height)
@@ -139,18 +140,20 @@ const yMitad= canvas.height/2
 const yInicial = canvas.height - canvas.height
 const xInicial = canvas.width - canvas.width
 //Instanciammiento de jugadores y personajes
+const filasGround= [[xInicial, yInicial + 70], [xInicial, yInicial+ 140], [xInicial, yInicial+210, [xInicial, yInicial+280]]
+[xInicial, yInicial+350], [xInicial, yInicial+420], [xInicial, yInicial+490], [xInicial, yInicial+560]]
+
 let ground= new Ground(0, 0, canvas.width, canvas.height)
 let yeti1= new Player(xInicial+10, yMitad, 70, 70)
 let bigFoot1 = new Shooter(xInicial+90, yInicial+ 5, 70, 70)
-let bigFoot2 = new Shooter(xInicial+90, yInicial+80, 70, 70)
-let bigFoot3 = new Shooter(xInicial+90, yInicial+150, 70, 70)
+let bigFoot2 = new Shooter(xInicial+90, yInicial+75, 70, 70)
+let bigFoot3 = new Shooter(xInicial+90, yInicial+145, 70, 70)
 let enemiesAmarillosArr= [];
 let enemiesRojosArr= [];
 let enemiesArr= [];
 let proyectilesArr= [];
 let bigFootArr= [bigFoot1, bigFoot2, bigFoot3];
 let particlesArray= [];
-console.log(bigFoot1)
 
 
 //Función de generación de enemigos
@@ -212,8 +215,9 @@ function updateCanvas(){
     ground.draw()
     yeti1.draw()
     bigFootArr.forEach((bigF) =>{
-        
+        bigF.draw()
     })
+    
     //const updateGameTime= (dt)=>{
      //   gameTime += dt
       //  console.log(gameTime)
@@ -238,6 +242,22 @@ function updateCanvas(){
     enemiesArr.forEach((enemy, index)=>{
         enemy.draw()
         enemy.updateEnemy()
+
+        bigFootArr.forEach((bigF, bigFIndex)=>{
+            const distance= Math.hypot(bigF.x-enemy.x, bigF.y-enemy.y)
+            if(distance-bigF.width-enemy.width <0.5){
+                if(bigF.vida >= 1){
+                    enemiesArr.splice(index, 1)
+                    bigF.vida=-1
+                }
+            else {
+                enemiesArr.splice(index, 1)
+                bigFootArr.splice(bigFIndex, 1)
+            }    
+        }
+        })
+
+
         proyectilesArr.forEach((proyect, proyectIndex)=>{
             const distance= Math.hypot(proyect.x-enemy.x, proyect.y-enemy.y)
             if(distance-proyect.radio-enemy.width <0.5){
@@ -294,23 +314,22 @@ function updateCanvas(){
         })
         //let bigFoot1 = new Shooter(100, y, 70, 70)
         //let bigFoot2 = new Shooter(100, y+150, 70, 70) 
+        console.log("viejo" + bigFootArr)
     botonComprar.addEventListener("click", (event)=>{
         let x = xInicial + 90
         let y = yInicial + 5
         let width= 70
         let height= 70
-        let newBigFoot= new Shooter(x, y, width, height)
-        for(let i = 0; i < bigFootArr.length; i++){        
-            if(newBigFoot.x === bigFootArr[i].x && newBigFoot.y === bigFootArr[i].y){
-                newBigFoot.y+75
-                bigFootArr.push(newBigFoot)
-            }else{
-                bigFootArr.push(newBigFoot)
+      for(let i = 0; i < bigFootArr.length; i++){        
+            if(y == bigFootArr[i].y){
+                 y= bigFootArr[i].y + height
             }
         }
+            bigFootArr.push(new Shooter(x, y, width, height)) 
+            console.log("nuevo"+bigFootArr)
     })   
     
-    
+    console.log("nuevo2"+bigFootArr)
 
    /* addEventListener("click", (event) =>{
         const velocity= {
