@@ -4,6 +4,9 @@ canvas.height = 560
 const yMitad= canvas.height/2
 const yInicial = canvas.height - canvas.height
 const xInicial = canvas.width - canvas.width
+
+
+
 //DOM
 const huntersScoreHTML = document.querySelector(".huntersScore")
 const timeHtml= document.querySelector(".countTime")
@@ -11,7 +14,7 @@ const botonComprar= document.getElementById("comprar")
 const botonStart = document.querySelector(".btnStartGame")
 const botonRestart = document.getElementsByClassName("btnRestarttGame")
 const gameOver = document.querySelector("gameOver")
-const yetiLiveCount = document.querySelector("livesCount")
+const yetiLiveCount = document.querySelector(".livesCount")
 const coinsCountHtml = document.querySelector(".coinsCounter")
 const aldeanosCountHtml= document.querySelector(".aldeanosCount")
 let lastTime //REVISAR 
@@ -53,8 +56,9 @@ class Player extends Component {
     this.playerImg.src= "./imagenes/yeti.png"
     this.playerImg.onload= () => {
     this.draw()
-    this.vida = 2
-  }
+    }
+    this.vida = 3
+ 
     }
     draw(){
         ctx.drawImage(this.playerImg, this.x, this.y, this.width, this.height)
@@ -126,6 +130,7 @@ class Proyectiles extends Component {
         this.draw()
         this.x = this.x + this.velocity.x
         this.y = this.y + this.velocity.y
+        
     }
 }
 const friction= 0.99
@@ -157,15 +162,10 @@ class Particles extends Component {
 }
 
 //Instanciammiento de jugadores y personajes
-//const filasGround= [[xInicial, yInicial + 70], [xInicial, yInicial+ 140], [xInicial, yInicial+210, [xInicial, yInicial+280]]
-//[xInicial, yInicial+350], [xInicial, yInicial+420], [xInicial, yInicial+490], [xInicial, yInicial+560]]
+
 let groundGame= new Ground(0, 0, canvas.width, canvas.height)
 let groundLost= new Ground(0, 0, canvas.width, canvas.height)
 let yeti1 = new Player(xInicial+10, yMitad, 70, 70)
-console.log(yeti1)
-let yetiLive= yeti1.vida
-//yetiLiveCount.innerHTML= yetiLive
-console.log(yetiLive)
 let bigFoot1 = new Shooter(xInicial+90, yInicial+ 5, 70, 70)
 let bigFoot2 = new Shooter(xInicial+90, yInicial+75, 70, 70) 
 let bigFoot3 = new Shooter(xInicial+90, yInicial+145, 70, 70) 
@@ -173,6 +173,8 @@ let bigFootArr= [bigFoot1, bigFoot2, bigFoot3];
 let enemiesArr= [];
 let proyectilesArr= [];
 let particlesArray= [];
+//let inGameMusic;
+
 //Funcion para arrancar con botones Restart y Start
 function init() {
      enemiesArr= [];
@@ -182,45 +184,52 @@ function init() {
      //gameOver.style.display="none"
 }
 //Función de generación de enemigos
+
+const filasGroundEjeY = [yInicial + 5, yInicial + 75, yInicial+143,
+     yInicial+213, yInicial+283, yInicial+353, yInicial+423, yInicial+489]
+console.log(filasGroundEjeY)
 function generarEnemigoRojo(){
     setInterval(() =>{
         let width= 70
         let height=70
         let x= canvas.width + width
-        let y= ((Math.random() * (canvas.height-height)) + height) 
+        let y= filasGroundEjeY[Math.floor(Math.random() * filasGroundEjeY.length)] 
+                        
+        console.log(y)
         velocity= {
             x: -2,
             y: 0,
         }
         enemiesArr.push(new Enemy(x, y, width, height,"./imagenes/cazador2.png", velocity, 1, "rojo")) //
-    },3000)
+    },1500)
 } 
 function generarEnemigoAmarillo(){
     setInterval(() =>{
         let width= 70
         let height=70
         let x= canvas.width + width
-        let y= ((Math.random() * (canvas.height-height)) + height) 
+        let y= filasGroundEjeY[Math.floor(Math.random() * filasGroundEjeY.length)] + height
         velocity= {
             x: -2,
             y: 0,
         }
         enemiesArr.push(new Enemy(x, y, width, height,"./imagenes/Cazador1.png", velocity, 1, "amarillo")) //
-    },5000)
+    },4000)
 }
 function generarEnemigoJeep(){
-    setInterval(() =>{
+    setInterval(() =>{ 
         let width= 70
         let height=70
         let x= canvas.width + width
-        let y= ((Math.random() * (canvas.height-height)) + height) 
+        let y= filasGroundEjeY[Math.floor(Math.random() * filasGroundEjeY.length)] + height
         velocity= {
             x: -2,
             y: 0,
         }
         enemiesArr.push(new Enemy(x, y, width, height,"./imagenes/jeepCazador.png", velocity, 5, "jeep")) 
-    },5000)
+    },10000)
 }
+console.log(enemiesArr)
 //funcio disparos automaticos Yeti
 function proyectilesYeti () {
         /*let canvasRect= canvas.getBoundingClientRect()
@@ -236,10 +245,40 @@ function proyectilesYeti () {
     console.log(proyectilesArr)*/
    
    }
+
+   function sound(src) {
+    this.sound = document.createElement("audio");
+    this.sound.src = src;
+    this.sound.setAttribute("preload", "auto");
+    this.sound.setAttribute("controls", "none");
+    this.sound.style.display = "none";
+   
+    document.body.appendChild(this.sound);
+    this.play = function(){
+      this.sound.play();
+    }
+    this.playLoop = function () {
+        this.sound.play();
+        this.sound.loop =true
+    }
+    this.stop = function(){
+      this.sound.pause();
+      this.sound.currentTime = 0
+    }
+
+
+  }
+
+  
+
 ////////////////////////
 //ANIMACION////////////
 ///////////////////
-let animationId
+let inGameMusic = new sound("./audio/Grieg - In the Hall of the Mountain King - 8-bit Remix.mp3")
+let lostGameMusic = new sound("./audio/Game Over (8-Bit Music).mp3")
+let enemyHitSound = new sound("./audio/hitEnemy.mp3")
+let shootSound = new sound("./audio/lanzamiento.mp3")
+let animationId 
 let frame = 0
 let scoreHunters = 0
 let gameTime = 0
@@ -269,6 +308,7 @@ function updateCanvas(){
     })
     proyectilesArr.forEach((proyect, index)=>{
         proyect.updateProyectil()
+        
         if (proyect.x-proyect.width > canvas.width){           
                 proyectilesArr.splice(index, 1)
     }
@@ -283,12 +323,12 @@ function updateCanvas(){
                 particlesArray.push(new Particles(
                     yeti1.x+40, 
                     yeti1.y+30, 
-                    Math.random()*4, 
+                    Math.random()*6, 
                     "yellow", 
-                    {x:(Math.random()-0.5)*(Math.random()*3),
-                     y:(Math.random()-0.5)*(Math.random()*3)})) 
+                    {x:(Math.random()-0.5)*(Math.random()*5),
+                     y:(Math.random()-0.5)*(Math.random()*5)})) 
             }
-            if(yeti1.vida>0) {
+            if(yeti1.vida>=1) {
                 enemiesArr.splice(index, 1)
                 yeti1.vida-=1
                 yetiLiveCount.innerHTML= yeti1.vida
@@ -296,6 +336,11 @@ function updateCanvas(){
                 cancelAnimationFrame(animationId)
                 clearInterval()
                 groundLost.draw()
+                
+                inGameMusic.stop()
+             
+                //lostGameMusic = new sound("./audio/Game Over (8-Bit Music).mp3")
+                lostGameMusic.play()
                 //gameOver.style.display="block"    
             }
         }
@@ -340,42 +385,43 @@ function updateCanvas(){
                     enemy.strength-=1
                         proyectilesArr.splice(proyectIndex, 1)
                 }else{
+
                     if(enemy.name==="jeep"){
                         coinSuma+=5
                         aldeanosSuma+=10  
-                        //aumenta conteo cazadores abatidos
-                    scoreHunters+=1
-                    //desaparece proy y enemigo al bajarle vida a 0
-                    enemiesArr.splice(index, 1)
-                    proyectilesArr.splice(proyectIndex, 1)
-                    coinsCountHtml.innerHTML= coinSuma
-                    aldeanosCountHtml.innerHTML= aldeanosSuma
-                    huntersScoreHTML.innerHTML = scoreHunters 
+                        scoreHunters+=1                     
+                        enemiesArr.splice(index, 1)
+                        proyectilesArr.splice(proyectIndex, 1)
+                        enemyHitSound.play()
+                        coinsCountHtml.innerHTML= coinSuma
+                        aldeanosCountHtml.innerHTML= aldeanosSuma
+                        huntersScoreHTML.innerHTML = scoreHunters 
+
                     }else if(enemy.name==="rojo"){
-                        coinSuma+=3
-                        aldeanosSuma+=7
+                            
+                            coinSuma+=3
+                            aldeanosSuma+=7
+                        scoreHunters+=1
+                        enemiesArr.splice(index, 1)
+                        proyectilesArr.splice(proyectIndex, 1)
+                        enemyHitSound.play()
+                        huntersScoreHTML.innerHTML = scoreHunters 
+                        coinsCountHtml.innerHTML= coinSuma
+                        aldeanosCountHtml.innerHTML= aldeanosSuma
+                        }else{
+                            coinSuma+=1
+                            aldeanosSuma+=5
                         
-                        //aumenta conteo cazadores abatidos
-                    scoreHunters+=1
-                    //desaparece proy y enemigo al bajarle vida a 0
-                    enemiesArr.splice(index, 1)
-                    proyectilesArr.splice(proyectIndex, 1)
-                    huntersScoreHTML.innerHTML = scoreHunters 
-                    coinsCountHtml.innerHTML= coinSuma
-                    aldeanosCountHtml.innerHTML= aldeanosSuma
-                    }else{
-                        coinSuma+=1
-                        aldeanosSuma+=5
-                       
-                        //aumenta conteo cazadores abatidos
-                    scoreHunters+=1
-                    //desaparece proy y enemigo al bajarle vida a 0
-                    enemiesArr.splice(index, 1)
-                    proyectilesArr.splice(proyectIndex, 1)
-                    huntersScoreHTML.innerHTML = scoreHunters 
-                    coinsCountHtml.innerHTML= coinSuma
-                    aldeanosCountHtml.innerHTML= aldeanosSuma
-                    }
+                            //aumenta conteo cazadores abatidos
+                        scoreHunters+=1
+                        //desaparece proy y enemigo al bajarle vida a 0
+                        enemyHitSound.play()
+                        enemiesArr.splice(index, 1)
+                        proyectilesArr.splice(proyectIndex, 1)
+                        huntersScoreHTML.innerHTML = scoreHunters 
+                        coinsCountHtml.innerHTML= coinSuma
+                        aldeanosCountHtml.innerHTML= aldeanosSuma
+                        }
                 }
             }
         })
@@ -388,7 +434,7 @@ function updateCanvas(){
 
 //Activar Shooters
 addEventListener ("click", (event)=>{
-    console.log(event.clientX, event.clientY)
+
     let canvasRect= canvas.getBoundingClientRect()
     for (let i=0; i<bigFootArr.length; i++){
         if(event.clientX - canvasRect.left <= bigFootArr[i].x+bigFootArr[i].width &&
@@ -401,29 +447,43 @@ addEventListener ("click", (event)=>{
                 y: 0
                     }
                 proyectilesArr.push(new Proyectiles(bigFootArr[i].x+20,bigFootArr[i].y+35,"./imagenes/stone.png",velocity))
+                shootSound.play()
 }
 }
 })
 //Comprar nuevos BigFoot
-botonComprar.addEventListener("click", (event)=>{
+addEventListener("keydown", (event)=>{
+if (event.defaultPrevented) {
+    return; 
+} 
+
+switch(event.code){
+case "Space":
 let x = xInicial + 90
 let y = yInicial + 5
 let width= 70
 let height= 70
+
 if(coinSuma>=1){
     coinSuma-=1
     coinsCountHtml.innerHTML= coinSuma
     for(let i = 0; i < bigFootArr.length; i++){        
-        if(y == bigFootArr[i].y && y<=canvas.height+3){
+        if(y == bigFootArr[i].y && y<=canvas.height-3){
              y= bigFootArr[i].y + height
-             console.log(bigFootArr[i])
-        }
+        }  
     }
         bigFootArr.push(new Shooter(x, y, width, height)) 
-        console.log("nuevo"+bigFootArr)
+
+}
 }
 })   
 //Moviemiento Yeti Up and Down con flechas teclado
+/*for(let i = 0; i < bigFootArr.length; i++){        
+    if(y == bigFootArr[i].y && y<=canvas.height-3){
+         y= bigFootArr[i].y + height
+    }  
+}
+    bigFootArr.push(new Shooter(x, y, width, height)) */
 //bloquear teclas izq y der
 /// revisar que no se mueva el scroll del browser
 addEventListener("keydown", event =>{
@@ -440,6 +500,8 @@ case "ArrowDown":
     break;
 }
 })
+
+
 //Funcion para boton Start
 botonStart.addEventListener("click", () => {
 init()
@@ -448,6 +510,11 @@ generarEnemigoRojo()
 generarEnemigoAmarillo()
 generarEnemigoJeep()
 proyectilesYeti () 
+lostGameMusic.stop()
+
+
+inGameMusic.playLoop()
+
 })
 //Cuando salga Game over convertir el boton Start en Restart o aparecer uno grandote en la parte alta de gameover
 /*const restartGame = restartGame.addEventListener("click", () => {
