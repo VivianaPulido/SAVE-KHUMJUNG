@@ -181,7 +181,7 @@ function init() {
      proyectilesArr= [];
      particlesArray= [];
      huntersScoreHTML.innerHTML = 0
-     //gameOver.style.display="none"
+     gameOver.style.display="none"
 }
 //Función de generación de enemigos
 
@@ -505,7 +505,6 @@ generarEnemigoRojo()
 generarEnemigoAmarillo()
 generarEnemigoJeep()
 proyectilesYeti () 
-gameOver.style.display= "none"
 lostGameMusic.stop()
 inGameMusic.playLoop()
 

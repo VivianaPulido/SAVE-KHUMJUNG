@@ -16,10 +16,12 @@ display: flex;
 justify-content: center;
 align-items: center;
 }
+
 .backTop {
     display: flex;
     flex-direction: row;
 }
+
 .fondo {
     margin: 0;
     border: 0;
@@ -40,7 +42,6 @@ align-items: center;
     background-image: url("./imagenes/Panel\ de\ Score2.png");
     background-size: 291px 560px;
     background-repeat: no-repeat;
-    padding-left: 50px;
     height: 560px;
     width: 291px;
     display: flex;
@@ -51,30 +52,27 @@ align-items: center;
 
 #displayJuego{
     width: 900px;
+    height: 560;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    position: relative;
 }
+
 canvas {
     margin: 0;
     user-select: none;
 }
 
-
-
 #scoreBoard .info {
     font-size: 25px;
     color: white; 
     font-family: 'Asap', sans-serif;
+    font-weight: 500;
 }
 
 #instrucciones img {
     height: 560px;
-}
-.botones {
-    display: flex;
-    align-content: center;
-    justify-content: center;
-    align-items: center;
-    margin-top: 20px;
-    margin-bottom: 20px;
 }
 
 #instrucciones{
@@ -92,6 +90,10 @@ canvas {
     padding: 0px;
 }
 
+.info{
+    padding-left: 50px;
+}
+
 .infoSavedYetis{
     display: flex;
     align-items: center; 
@@ -103,6 +105,7 @@ canvas {
     align-items: center;
     font-size: 25px;
     color: white; 
+    padding-left: 50px;
 }
 
 .infoA img{
@@ -111,7 +114,18 @@ canvas {
 }
 
 .ScoreText{
-    margin: 0;
+    margin-bottom: 0;
+}
+
+.botones {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 900px;
+    align-self: center;
+    margin-right: 55px;
 }
 
 .btnStartGame{
@@ -142,4 +156,12 @@ height: 50px;
 border-radius: 20px;
 font-size: 20px;
 font-weight: bold; 
+}
+
+.gameOver{
+    position: absolute;
+    top: 150px;
+    font-size: 70px;
+    text-align: center;
+    display: none;
 }
