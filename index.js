@@ -13,7 +13,7 @@ const timeHtml= document.querySelector(".countTime")
 const botonComprar= document.getElementById("comprar")
 const botonStart = document.querySelector(".btnStartGame")
 const botonRestart = document.getElementsByClassName("btnRestarttGame")
-const gameOver = document.querySelector("gameOver")
+const gameOver = document.querySelector(".gameOver")
 const yetiLiveCount = document.querySelector(".livesCount")
 const coinsCountHtml = document.querySelector(".coinsCounter")
 const aldeanosCountHtml= document.querySelector(".aldeanosCount")
@@ -336,12 +336,9 @@ function updateCanvas(){
                 cancelAnimationFrame(animationId)
                 clearInterval()
                 groundLost.draw()
-                
                 inGameMusic.stop()
-             
-                //lostGameMusic = new sound("./audio/Game Over (8-Bit Music).mp3")
                 lostGameMusic.play()
-                //gameOver.style.display="block"    
+                gameOver.style.display="block"    
             }
         }
         //Enemigos chocan y disminuyen vida Shooter    
@@ -455,13 +452,8 @@ addEventListener ("click", (event)=>{
 
 
 //Comprar nuevos BigFoot
-.botonComprar.addEventListener("click", (event)=>{
-if (event.defaultPrevented) {
-    return; 
-} 
+botonComprar.addEventListener("click", (event)=>{
 
-switch(event.code){
-case "Space":
 let x = xInicial + 90
 let y = yInicial + 5
 let width= 70
@@ -479,7 +471,7 @@ if(coinSuma>=1){
 
 }
 }
-})   
+)   
 //Moviemiento Yeti Up and Down con flechas teclado
 /*for(let i = 0; i < bigFootArr.length; i++){        
     if(y == bigFootArr[i].y && y<=canvas.height-3){
@@ -513,9 +505,8 @@ generarEnemigoRojo()
 generarEnemigoAmarillo()
 generarEnemigoJeep()
 proyectilesYeti () 
+gameOver.style.display= "none"
 lostGameMusic.stop()
-
-
 inGameMusic.playLoop()
 
 })
