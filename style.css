@@ -1,9 +1,15 @@
 body{
     margin: 0;
     border: solid;
+    display: flex;
+    flex-direction: column;
 }
 #gameTitleAndTop {
-position: relative;
+background-image: url("./imagenes/fondoLargo.png");
+height: 237px;
+display: flex;
+justify-content: center;
+align-items: center;
 }
 .backTop {
     display: flex;
@@ -13,33 +19,25 @@ position: relative;
     margin: 0;
     border: 0;
 }
-.gameTitle {
-    position: absolute;
-    width: 10px;
-    height: 25px;
-    top: 25%;
-    left: 45%;
+
+.gameTitle img{
+  width: 400px;
 }
+
 #gameAndInfo {
     display: flex;
     flex-direction: row;
-    border: solid;
     margin: 0;
-    align-content: space-between;
     height: 560px;
 }
 #displayJuego{
     width: 900px;
 }
 canvas {
-    border: solid;
     margin-top: 0;
+    user-select: none;
 }
 #gameAndInfo #scoreBoard {
-    border: solid;
-    margin-left:20px;
-    margin-right: 30px;
-    padding: 10px 10px;
 }
 .gameOver {
     position: absolute;
@@ -52,8 +50,9 @@ canvas {
 #scoreBoard .info {
     font-size: 40px;
 }
-#instrucciones {
-    width: 30px;
+#instrucciones img {
+    height: 560px;
+    margin-right: 0;
 }
 .botones {
     display: flex;
@@ -62,4 +61,9 @@ canvas {
     align-items: center;
     margin-top: 20px;
     margin-bottom: 20px;
+}
+
+#instrucciones{
+    align-self: auto;
+    margin: 0;
 }
