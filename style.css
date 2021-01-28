@@ -1,8 +1,13 @@
+
+ @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap');
+
+
 body{
     margin: 0;
     border: solid;
     display: flex;
     flex-direction: column;
+    background-color: black;
 }
 #gameTitleAndTop {
 background-image: url("./imagenes/fondoLargo.png");
@@ -26,33 +31,42 @@ align-items: center;
 
 #gameAndInfo {
     display: flex;
-    flex-direction: row;
+    justify-content: space-between;
     margin: 0;
     height: 560px;
 }
+
+#scoreBoard{
+    background-image: url("./imagenes/Panel\ de\ Score2.png");
+    background-size: 291px 560px;
+    background-repeat: no-repeat;
+    padding-left: 50px;
+    height: 560px;
+    width: 291px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+
 #displayJuego{
     width: 900px;
 }
 canvas {
-    margin-top: 0;
+    margin: 0;
     user-select: none;
 }
-#gameAndInfo #scoreBoard {
-}
-.gameOver {
-    position: absolute;
-    top: 50%;
-    text-align: center;
-    font-size: 100px;
-    right: 30%;
-    display:none;
-}
+
+
+
 #scoreBoard .info {
-    font-size: 40px;
+    font-size: 25px;
+    color: white; 
+    font-family: 'Hachi Maru Pop', cursive;
 }
+
 #instrucciones img {
     height: 560px;
-    margin-right: 0;
 }
 .botones {
     display: flex;
@@ -64,6 +78,58 @@ canvas {
 }
 
 #instrucciones{
-    align-self: auto;
     margin: 0;
+}
+
+.infoScoreName{
+    display: flex;
+    align-items: center;
+    margin: 0;
+}
+
+.info img{
+    margin-right: 15px;
+    padding: 0px;
+}
+
+.infoSavedYetis{
+    display: flex;
+    align-items: center; 
+    margin: 0;
+}
+
+.infoA{
+    display: flex;
+    align-items: center;
+    font-size: 25px;
+    color: white; 
+}
+
+.infoA img{
+    margin-right: 15px;
+    padding: 0px;
+}
+
+.ScoreText{
+    margin: 0;
+}
+
+.btnStartGame{
+color: black;
+background-color: darkorange;
+width: 150px;
+height: 50px;
+border-radius: 20px;
+font-size: 20px;
+font-weight: bold;
+}
+
+.btnRestarttGame{
+    color: black;
+    background-color: darkorange;
+width: 170px;
+height: 50px;
+border-radius: 20px;
+font-size: 20px;
+font-weight: bold;
 }

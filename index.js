@@ -451,8 +451,11 @@ addEventListener ("click", (event)=>{
 }
 }
 })
+
+
+
 //Comprar nuevos BigFoot
-addEventListener("keydown", (event)=>{
+.botonComprar.addEventListener("click", (event)=>{
 if (event.defaultPrevented) {
     return; 
 } 
