@@ -1,3 +1,7 @@
+
+ @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap');
+
+
 body{
     margin: 0;
     border: solid;
@@ -53,18 +57,12 @@ canvas {
     user-select: none;
 }
 
-.gameOver {
-    position: absolute;
-    top: 50%;
-    text-align: center;
-    font-size: 100px;
-    right: 30%;
-    display:none;
-}
+
 
 #scoreBoard .info {
     font-size: 25px;
-    color: white;  
+    color: white; 
+    font-family: 'Hachi Maru Pop', cursive;
 }
 
 #instrucciones img {
