@@ -232,7 +232,7 @@ function generarEnemigoJeep(){
 console.log(enemiesArr)
 //funcio disparos automaticos Yeti
 function proyectilesYeti () {
-        /*let canvasRect= canvas.getBoundingClientRect()
+        let canvasRect= canvas.getBoundingClientRect()
     setInterval(()=>{
         let x = yeti1.x + yeti1.width/2 
         let y = yeti1.y + yeti1.height/2 
@@ -242,7 +242,7 @@ function proyectilesYeti () {
           }
         proyectilesArr.push(new Proyectiles(x-5, y, "./imagenes/snowball.png", velocity))
     },1000)
-    console.log(proyectilesArr)*/
+    console.log(proyectilesArr)
    
    }
 
