@@ -6,10 +6,8 @@ const yInicial = canvas.height - canvas.height
 const xInicial = canvas.width - canvas.width
 
 
-
 //DOM
 const huntersScoreHTML = document.querySelector(".huntersScore")
-const timeHtml= document.querySelector(".countTime")
 const botonComprar= document.getElementById("comprar")
 const botonStart = document.querySelector(".btnStartGame")
 const botonRestart = document.querySelector(".btnRestarttGame")
@@ -17,16 +15,8 @@ const gameOver = document.querySelector(".gameOver")
 const yetiLiveCount = document.querySelector(".livesCount")
 const coinsCountHtml = document.querySelector(".coinsCounter")
 const aldeanosCountHtml= document.querySelector(".aldeanosCount")
-const parentesisComprar = document.querySelectorAll(".btnTimer")
 
-
-
-/*let lastTime //REVISAR 
-const updateTime= (()=>{
-    let now= Date.now()
-    let dt= (now-lastTime)/1000
-    updateCanvas(dt)
-})*/
+//Classes
 class Ground {
     constructor(x, y, width, height){
         this.x= x;
@@ -53,6 +43,7 @@ class Component {
         this.imgSource= imgSource;
     }
 }
+
 class Player extends Component {
     constructor(x, y, width, height){
     super(x, y, width, height)
@@ -62,12 +53,12 @@ class Player extends Component {
     this.draw()
     }
     this.vida = 3
- 
     }
+
     draw(){
         ctx.drawImage(this.playerImg, this.x, this.y, this.width, this.height)
     }
-    moveUp(){ ///revisar error que aparece, no afeta en jugabilidad pero hay que revisarlo
+    moveUp(){ 
         if(this.y <= yInicial+5) {
           y=(canvas.height - canvas.height)  + this.height 
         } else {
@@ -82,6 +73,7 @@ class Player extends Component {
           }
     }
 }
+
 class Enemy extends Component {
     constructor(x, y, width, height, imgSource, velocity, strength, name){
         super(x, y, width, height, imgSource)
@@ -94,6 +86,7 @@ class Enemy extends Component {
         this.strength= strength;
         this.name= name;
         }
+
         draw(){
             ctx.drawImage(this.enemyImg, this.x, this.y, this.width, this.height)
         }
@@ -102,6 +95,7 @@ class Enemy extends Component {
             this.y = this.y +  this.velocity.y
         }
 }
+
 class Shooter extends Component {
     constructor(x, y, width, height){
     super (x, y, width, height)
@@ -112,12 +106,14 @@ class Shooter extends Component {
     }
     this.vida = 5
 }
+
 draw(){
     ctx.drawImage(this.playerImg, this.x, this.y, this.width, this.height)
 }}
+
 class Proyectiles extends Component {
     constructor(x, y,imgSource, velocity){
-        super(x, y, imgSource) //cuando usas exted y el width es doferente hay que ponerlo en el super??
+        super(x, y, imgSource) 
         this.width = 20
         this.height = 20
         this.velocity = velocity;
@@ -137,6 +133,7 @@ class Proyectiles extends Component {
         
     }
 }
+
 const friction= 0.99
 class Particles extends Component {
     constructor(x, y, radio, color, velocity){
@@ -166,7 +163,6 @@ class Particles extends Component {
 }
 
 //Instanciammiento de jugadores y personajes
-
 let groundGame= new Ground(0, 0, canvas.width, canvas.height)
 let groundLost= new Ground(0, 0, canvas.width, canvas.height)
 let yeti1 = new Player(xInicial+10, yMitad, 70, 70)
@@ -177,12 +173,9 @@ let bigFootArr= [bigFoot1, bigFoot2, bigFoot3];
 let enemiesArr= [];
 let proyectilesArr= [];
 let particlesArray= [];
-//let inGameMusic;
 
-//Funcion para arrancar con botones Restart y Start
-
+//Funcionciones inicio
 function init() {
-   
      enemiesArr= [];
      proyectilesArr= [];
      particlesArray= [];
@@ -191,13 +184,13 @@ function init() {
      aldeanosCountHtml.innerHTML= 0
      huntersScoreHTML.innerHTML = 0
      yetiLiveCount.innerHTML= 3
-     //gameOver.style.display="none"
+  
 }
-//Función de generación de enemigos
 
+//Función de generación de enemigos
 const filasGroundEjeY = [yInicial + 5, yInicial + 75, yInicial+143,
      yInicial+213, yInicial+283, yInicial+353, yInicial+423, yInicial+489]
-console.log(filasGroundEjeY)
+
 function generarEnemigoRojo(){
     setInterval(() =>{
         let width= 70
@@ -205,12 +198,11 @@ function generarEnemigoRojo(){
         let x= canvas.width + width
         let y= filasGroundEjeY[Math.floor(Math.random() * filasGroundEjeY.length)] 
                         
-        console.log(y)
         velocity= {
             x: -2,
             y: 0,
         }
-        enemiesArr.push(new Enemy(x, y, width, height,"./imagenes/cazador2.png", velocity, 1, "rojo")) //
+        enemiesArr.push(new Enemy(x, y, width, height,"./imagenes/cazador2.png", velocity, 1, "rojo")) 
     },1500)
 } 
 function generarEnemigoAmarillo(){
@@ -223,7 +215,7 @@ function generarEnemigoAmarillo(){
             x: -2,
             y: 0,
         }
-        enemiesArr.push(new Enemy(x, y, width, height,"./imagenes/Cazador1.png", velocity, 1, "amarillo")) //
+        enemiesArr.push(new Enemy(x, y, width, height,"./imagenes/Cazador1.png", velocity, 1, "amarillo")) 
     },4000)
 }
 function generarEnemigoJeep(){
@@ -239,8 +231,8 @@ function generarEnemigoJeep(){
         enemiesArr.push(new Enemy(x, y, width, height,"./imagenes/jeepCazador.png", velocity, 5, "jeep")) 
     },10000)
 }
-console.log(enemiesArr)
-//funcio disparos automaticos Yeti
+
+//Función disparos automaticos Yeti
 function proyectilesYeti () {
         let canvasRect= canvas.getBoundingClientRect()
     setInterval(()=>{
@@ -252,10 +244,9 @@ function proyectilesYeti () {
           }
         proyectilesArr.push(new Proyectiles(x-5, y, "./imagenes/snowball.png", velocity))
     },3000)
-    console.log(proyectilesArr)
-   
    }
 
+   //Funcion sonidos
    function sound(src) {
     this.sound = document.createElement("audio");
     this.sound.src = src;
@@ -281,9 +272,9 @@ function proyectilesYeti () {
 
   
 
-////////////////////////
-//ANIMACION////////////
-///////////////////
+
+//ANIMACION
+
 let inGameMusic = new sound("./audio/Grieg - In the Hall of the Mountain King - 8-bit Remix.mp3")
 let lostGameMusic = new sound("./audio/Game Over (8-Bit Music).mp3")
 let enemyHitSound = new sound("./audio/hitEnemy.mp3")
@@ -292,23 +283,21 @@ let yetiDeath = new sound("./audio/yeti explotion.mp3")
 let animationId 
 let frame = 0
 let scoreHunters = 0
-let gameTime = 0
 let coinSuma= 0
 let aldeanosSuma= 0
 let yetiVida= yeti1.vida
+
+
 function updateCanvas(){
   animationId = requestAnimationFrame(updateCanvas)
+
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     groundGame.draw()
     yeti1.draw()
     bigFootArr.forEach((bigF) =>{
         bigF.draw()
     })
-    //const updateGameTime= (dt)=>{
-     //   gameTime += dt
-      //  console.log(gameTime)
-    //}
-    //timeHtml.innerText= updateGameTime()
+
     particlesArray.forEach((particle, index) => {
         particle.updateParticles()
         if(particle.alpha <= 0){
@@ -327,6 +316,7 @@ function updateCanvas(){
     enemiesArr.forEach((enemy, index)=>{
         enemy.draw()
         enemy.updateEnemy()
+
         //EndGame
         const distance= Math.hypot(yeti1.x-enemy.x, yeti1.y-enemy.y)
         if(distance-yeti1.width-enemy.width <0.5) {
@@ -354,10 +344,10 @@ function updateCanvas(){
                 yetiDeath.play()
                 inGameMusic.stop()
                 lostGameMusic.play()
-        
                 gameOver.style.display="block"    
             }
         }
+
         //Enemigos chocan y disminuyen vida Shooter    
         bigFootArr.forEach((bigF, bigFIndex)=>{
             const distance= Math.hypot(bigF.x-enemy.x, bigF.y-enemy.y)
@@ -382,11 +372,12 @@ function updateCanvas(){
             }    
         }
         })
+
         //Daño, desaparicion de proyectiles y enemigos
         proyectilesArr.forEach((proyect, proyectIndex)=>{
             const distance= Math.hypot((proyect.x+proyect.width) - enemy.x, (proyect.y + proyect.width) - enemy.y)
             if(distance-enemy.width <0.5){
-                //explota al chocar proyectil con enemigo
+     
                 for(let i=0; i<8; i++){
                     particlesArray.push(new Particles(
                         proyect.x, 
@@ -403,7 +394,7 @@ function updateCanvas(){
 
                     if(enemy.name==="jeep"){
                         coinSuma+=5
-                        aldeanosSuma+=10  
+                        aldeanosSuma+=5  
                         scoreHunters+=1                     
                         enemiesArr.splice(index, 1)
                         proyectilesArr.splice(proyectIndex, 1)
@@ -423,19 +414,16 @@ function updateCanvas(){
                         huntersScoreHTML.innerHTML = scoreHunters 
                         coinsCountHtml.innerHTML= coinSuma
                         aldeanosCountHtml.innerHTML= aldeanosSuma
-                        }else{
+                        } else {
                             coinSuma+=1
-                            aldeanosSuma+=5
-                        
-                            //aumenta conteo cazadores abatidos
-                        scoreHunters+=1
-                        //desaparece proy y enemigo al bajarle vida a 0
-                        enemyHitSound.play()
-                        enemiesArr.splice(index, 1)
-                        proyectilesArr.splice(proyectIndex, 1)
-                        huntersScoreHTML.innerHTML = scoreHunters 
-                        coinsCountHtml.innerHTML= coinSuma
-                        aldeanosCountHtml.innerHTML= aldeanosSuma
+                            aldeanosSuma+=1
+                            scoreHunters+=1
+                            enemyHitSound.play()
+                            enemiesArr.splice(index, 1)
+                            proyectilesArr.splice(proyectIndex, 1)
+                            huntersScoreHTML.innerHTML = scoreHunters 
+                            coinsCountHtml.innerHTML= coinSuma
+                            aldeanosCountHtml.innerHTML= aldeanosSuma
                         }   
                 }
             }
@@ -443,16 +431,24 @@ function updateCanvas(){
 
         if (enemy.x+enemy.width < xInicial){        
                 enemiesArr.splice(index, 1)
-                aldeanosSuma-= 4     
-                aldeanosCountHtml.innerHTML= aldeanosSuma    
-        }
+                if(aldeanosSuma <= 0) {
+                    aldeanosCountHtml.innerHTML = 0    
+                }
+               else if(aldeanosSuma <5) {
+                    aldeanosSuma-=1
+                    aldeanosCountHtml.innerHTML = aldeanosSuma    
+
+                }else {
+                    aldeanosSuma-=4
+                   aldeanosCountHtml.innerHTML= aldeanosSuma
+        }}
     })
     frame++
 }
-console.log(enemiesArr)
+
+
 //Activar Shooters
 addEventListener ("click", (event)=>{
-
     let canvasRect= canvas.getBoundingClientRect()
     for (let i=0; i<bigFootArr.length; i++){
         if(event.clientX - canvasRect.left <= bigFootArr[i].x+bigFootArr[i].width &&
@@ -470,32 +466,14 @@ addEventListener ("click", (event)=>{
 }
 })
 
-
-/*let comprarCount = document.querySelector(".num")
-
-
-console.log(botonCompra)
-//botonCompra.disabled = true;
-function disableBtn() {
-    botonCompra.disabled = true;
-}
-
-function enableBtn() {
-    if (coinSuma > 9) {
-   botonCompra.disabled = false;
-    }
-}*/
-//console.log(enableBtn)
-
-
+//Boton compra Shooters
 botonComprar.addEventListener("click", (event)=>{
-
     let x = xInicial + 90
     let y = yInicial + 5
     let width= 70
     let height= 70
     if(coinSuma >=10) {
-    coinSuma-=15
+    coinSuma-=10
     coinsCountHtml.innerHTML= coinSuma
 
         for(let i = 0; i < bigFootArr.length; i++){        
@@ -510,43 +488,32 @@ botonComprar.addEventListener("click", (event)=>{
 
 
 //Moviemiento Yeti Up and Down con flechas teclado
-/*for(let i = 0; i < bigFootArr.length; i++){        
-    if(y == bigFootArr[i].y && y<=canvas.height-3){
-         y= bigFootArr[i].y + height
-    }  
-}
-    bigFootArr.push(new Shooter(x, y, width, height)) */
-//bloquear teclas izq y der
-/// revisar que no se mueva el scroll del browser
 addEventListener("keydown", event =>{
-if (event.defaultPrevented) {
-return; 
-}
-console.log(event.code)
-switch(event.code) {
-case "ArrowUp":
-    yeti1.moveUp();
-    break;
-case "ArrowDown":
-    yeti1.moveDown();
-    break;
-}
+    if (event.defaultPrevented) {
+    return; 
+    }
+    switch(event.code) {
+    case "ArrowUp":
+        yeti1.moveUp();
+        break;
+    case "ArrowDown":
+        yeti1.moveDown();
+        break;
+    }
 })
 
 
 //Funcion para boton Start
 botonStart.addEventListener("click", () => {
-init()
-updateCanvas()
-generarEnemigoRojo()
-generarEnemigoAmarillo()
-generarEnemigoJeep()
-proyectilesYeti () 
-gameOver.style.display= "none"
-lostGameMusic.stop()
-inGameMusic.playLoop()
-//botonCompra.disabled = true;
-//enableBtn()
+    init()
+    updateCanvas()
+    generarEnemigoRojo()
+    generarEnemigoAmarillo()
+    generarEnemigoJeep()
+    proyectilesYeti () 
+    gameOver.style.display= "none"
+    lostGameMusic.stop()
+    inGameMusic.playLoop()
 })
 
 botonRestart.addEventListener("click", () => {
@@ -561,5 +528,3 @@ botonRestart.addEventListener("click", () => {
     inGameMusic.playLoop()
 })
 
-console.log(enemiesArr)
-console.log(particlesArray)
