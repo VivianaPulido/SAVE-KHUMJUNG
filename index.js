@@ -241,7 +241,7 @@ function proyectilesYeti () {
               y: 0
           }
         proyectilesArr.push(new Proyectiles(x-5, y, "./imagenes/snowball.png", velocity))
-    },1000)
+    },3000)
     console.log(proyectilesArr)
    
    }
@@ -509,6 +509,7 @@ lostGameMusic.stop()
 inGameMusic.playLoop()
 
 })
+<<<<<<< HEAD
 //Cuando salga Game over convertir el boton Start en Restart o aparecer uno grandote en la parte alta de gameover
 /*const restartGame = restartGame.addEventListener("click", () => {
 init()
@@ -524,5 +525,8 @@ gameOver.style.display="none"
 //generarEnemigoAmarillo()
 //generarEnemigoJeep()
 //proyectilesYeti () 
+=======
+
+>>>>>>> f0b09e00d994398c3843fd3bb509e7373c0402e1
 console.log(enemiesArr)
 console.log(particlesArray)
