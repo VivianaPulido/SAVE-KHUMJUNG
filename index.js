@@ -12,17 +12,21 @@ const huntersScoreHTML = document.querySelector(".huntersScore")
 const timeHtml= document.querySelector(".countTime")
 const botonComprar= document.getElementById("comprar")
 const botonStart = document.querySelector(".btnStartGame")
-const botonRestart = document.getElementsByClassName("btnRestarttGame")
+const botonRestart = document.querySelector(".btnRestarttGame")
 const gameOver = document.querySelector(".gameOver")
 const yetiLiveCount = document.querySelector(".livesCount")
 const coinsCountHtml = document.querySelector(".coinsCounter")
 const aldeanosCountHtml= document.querySelector(".aldeanosCount")
-let lastTime //REVISAR 
+const parentesisComprar = document.querySelectorAll(".btnTimer")
+
+
+
+/*let lastTime //REVISAR 
 const updateTime= (()=>{
     let now= Date.now()
     let dt= (now-lastTime)/1000
     updateCanvas(dt)
-})
+})*/
 class Ground {
     constructor(x, y, width, height){
         this.x= x;
@@ -176,12 +180,18 @@ let particlesArray= [];
 //let inGameMusic;
 
 //Funcion para arrancar con botones Restart y Start
+
 function init() {
+   
      enemiesArr= [];
      proyectilesArr= [];
      particlesArray= [];
      huntersScoreHTML.innerHTML = 0
-     gameOver.style.display="none"
+     coinsCountHtml.innerHTML= 0
+     aldeanosCountHtml.innerHTML= 0
+     huntersScoreHTML.innerHTML = 0
+     yetiLiveCount.innerHTML= 3
+     //gameOver.style.display="none"
 }
 //Función de generación de enemigos
 
@@ -278,6 +288,7 @@ let inGameMusic = new sound("./audio/Grieg - In the Hall of the Mountain King - 
 let lostGameMusic = new sound("./audio/Game Over (8-Bit Music).mp3")
 let enemyHitSound = new sound("./audio/hitEnemy.mp3")
 let shootSound = new sound("./audio/lanzamiento.mp3")
+let yetiDeath = new sound("./audio/yeti explotion.mp3")
 let animationId 
 let frame = 0
 let scoreHunters = 0
@@ -328,16 +339,22 @@ function updateCanvas(){
                     {x:(Math.random()-0.5)*(Math.random()*5),
                      y:(Math.random()-0.5)*(Math.random()*5)})) 
             }
-            if(yeti1.vida>=1) {
+            if(yeti1.vida>1) {
                 enemiesArr.splice(index, 1)
-                yeti1.vida-=1
+                yeti1.vida--
+                yetiDeath.play()
                 yetiLiveCount.innerHTML= yeti1.vida
             } else {
                 cancelAnimationFrame(animationId)
                 clearInterval()
+                yeti1.vida--
+                yetiLiveCount.innerHTML= yeti1.vida
+                yetiDeath.play()
                 groundLost.draw()
+                yetiDeath.play()
                 inGameMusic.stop()
                 lostGameMusic.play()
+        
                 gameOver.style.display="block"    
             }
         }
@@ -361,6 +378,7 @@ function updateCanvas(){
             else {
                 enemiesArr.splice(index, 1)
                 bigFootArr.splice(bigFIndex, 1)
+                yetiDeath.play()
             }    
         }
         })
@@ -418,17 +436,20 @@ function updateCanvas(){
                         huntersScoreHTML.innerHTML = scoreHunters 
                         coinsCountHtml.innerHTML= coinSuma
                         aldeanosCountHtml.innerHTML= aldeanosSuma
-                        }
+                        }   
                 }
             }
         })
-        //if (enemy.x < 0 - enemy.width){        
-        //        enemiesArr.splice(index, 1)         
-       // }
+
+        if (enemy.x+enemy.width < xInicial){        
+                enemiesArr.splice(index, 1)
+                aldeanosSuma-= 4     
+                aldeanosCountHtml.innerHTML= aldeanosSuma    
+        }
     })
     frame++
 }
-
+console.log(enemiesArr)
 //Activar Shooters
 addEventListener ("click", (event)=>{
 
@@ -450,28 +471,44 @@ addEventListener ("click", (event)=>{
 })
 
 
+/*let comprarCount = document.querySelector(".num")
 
-//Comprar nuevos BigFoot
+
+console.log(botonCompra)
+//botonCompra.disabled = true;
+function disableBtn() {
+    botonCompra.disabled = true;
+}
+
+function enableBtn() {
+    if (coinSuma > 9) {
+   botonCompra.disabled = false;
+    }
+}*/
+//console.log(enableBtn)
+
+
 botonComprar.addEventListener("click", (event)=>{
 
-let x = xInicial + 90
-let y = yInicial + 5
-let width= 70
-let height= 70
-
-if(coinSuma>=1){
-    coinSuma-=1
+    let x = xInicial + 90
+    let y = yInicial + 5
+    let width= 70
+    let height= 70
+    if(coinSuma >=10) {
+    coinSuma-=15
     coinsCountHtml.innerHTML= coinSuma
-    for(let i = 0; i < bigFootArr.length; i++){        
-        if(y == bigFootArr[i].y && y<=canvas.height-3){
-             y= bigFootArr[i].y + height
-        }  
-    }
-        bigFootArr.push(new Shooter(x, y, width, height)) 
 
-}
-}
-)   
+        for(let i = 0; i < bigFootArr.length; i++){        
+            if(y == bigFootArr[i].y && y<=canvas.height-3){
+                y= bigFootArr[i].y + height
+            }  
+        }
+            bigFootArr.push(new Shooter(x, y, width, height)) 
+    }
+})
+
+
+
 //Moviemiento Yeti Up and Down con flechas teclado
 /*for(let i = 0; i < bigFootArr.length; i++){        
     if(y == bigFootArr[i].y && y<=canvas.height-3){
@@ -505,28 +542,24 @@ generarEnemigoRojo()
 generarEnemigoAmarillo()
 generarEnemigoJeep()
 proyectilesYeti () 
+gameOver.style.display= "none"
 lostGameMusic.stop()
 inGameMusic.playLoop()
-
+//botonCompra.disabled = true;
+//enableBtn()
 })
-<<<<<<< HEAD
-//Cuando salga Game over convertir el boton Start en Restart o aparecer uno grandote en la parte alta de gameover
-/*const restartGame = restartGame.addEventListener("click", () => {
-init()
-updateCanvas()
-generarEnemigoRojo()
-generarEnemigoAmarillo()
-generarEnemigoJeep()
-proyectilesYeti () 
-gameOver.style.display="none"
-})*/
-//updateCanvas()
-//generarEnemigoRojo()
-//generarEnemigoAmarillo()
-//generarEnemigoJeep()
-//proyectilesYeti () 
-=======
 
->>>>>>> f0b09e00d994398c3843fd3bb509e7373c0402e1
+botonRestart.addEventListener("click", () => {
+    init()
+    updateCanvas()
+    generarEnemigoRojo()
+    generarEnemigoAmarillo()
+    generarEnemigoJeep()
+    proyectilesYeti () 
+    gameOver.style.display= "none"
+    lostGameMusic.stop()
+    inGameMusic.playLoop()
+})
+
 console.log(enemiesArr)
 console.log(particlesArray)
